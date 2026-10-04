@@ -6,21 +6,20 @@ export default async function handler(req, res) {
     const { model, messages, temperature, max_tokens } = req.body;
 
     try {
-        const isGemma = model && model.toLowerCase().includes('gemma');
-        const endpoint = isGemma 
-            ? 'https://openrouter.ai/api/v1/chat/completions' 
-            : 'https://agentrouter.org/api/v1/chat/completions';
-        
-        const apiKey = isGemma 
-            ? process.env.OPENROUTER_API_KEY 
-            : process.env.AGENTROUTER_API_KEY;
+        const isOpenRouterModel = model && (model.toLowerCase().includes('gemma') || model.toLowerCase().includes('qwen'));
+        const endpoint = isOpenRouterModel 
+    ? 'https://openrouter.ai/api/v1/chat/completions' 
+    : 'https://agentrouter.org/api/v1/chat/completions';
 
-        if (!apiKey) {
-            return res.status(500).json({ 
-                error: `API Key untuk model ${isGemma ? 'OpenRouter' : 'AgentRouter'} belum dikonfigurasi di Environment Variables Vercel.` 
-            });
-        }
+const apiKey = isOpenRouterModel 
+    ? process.env.OPENROUTER_API_KEY 
+    : process.env.AGENTROUTER_API_KEY;
 
+if (!apiKey) {
+    return res.status(500).json({ 
+        error: `API Key untuk model ${isOpenRouterModel ? 'OpenRouter' : 'AgentRouter'} belum dikonfigurasi di Environment Variables Vercel.` 
+    });
+}
         const response = await fetch(endpoint, {
             method: 'POST',
             headers: {
