@@ -3,23 +3,35 @@ export default async function handler(req, res) {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
 
-    const { model, messages, temperature, max_tokens } = req.body;
+    const { model, provider, messages, temperature, max_tokens } = req.body;
+
+    let endpoint = '';
+    let apiKey = '';
+
+    // Switch Case Otomatis Berdasarkan Penyedia
+    switch (provider) {
+        case 'Google':
+            endpoint = 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions';
+            apiKey = process.env.GEMINI_API_KEY;
+            break;
+        case 'Groq':
+            endpoint = 'https://api.groq.com/openai/v1/chat/completions';
+            apiKey = process.env.GROQ_API_KEY;
+            break;
+        case 'OpenRouter':
+        default:
+            endpoint = 'https://openrouter.ai/api/v1/chat/completions';
+            apiKey = process.env.OPENROUTER_API_KEY;
+            break;
+    }
+
+    if (!apiKey) {
+        return res.status(500).json({ 
+            error: `API Key untuk provider ${provider} belum dikonfigurasi di Environment Variables Vercel.` 
+        });
+    }
 
     try {
-        const isOpenRouterModel = model && (model.toLowerCase().includes('gemma') || model.toLowerCase().includes('qwen'));
-        const endpoint = isOpenRouterModel 
-    ? 'https://openrouter.ai/api/v1/chat/completions' 
-    : 'https://agentrouter.org/api/v1/chat/completions';
-
-const apiKey = isOpenRouterModel 
-    ? process.env.OPENROUTER_API_KEY 
-    : process.env.AGENTROUTER_API_KEY;
-
-if (!apiKey) {
-    return res.status(500).json({ 
-        error: `API Key untuk model ${isOpenRouterModel ? 'OpenRouter' : 'AgentRouter'} belum dikonfigurasi di Environment Variables Vercel.` 
-    });
-}
         const response = await fetch(endpoint, {
             method: 'POST',
             headers: {
@@ -39,7 +51,7 @@ if (!apiKey) {
         const data = await response.json();
         
         if (!response.ok) {
-            throw new Error(data.error?.message || "Gagal menghubungi API pihak ketiga.");
+            throw new Error(data.error?.message || "Gagal menghubungi API provider.");
         }
 
         res.status(200).json(data);
