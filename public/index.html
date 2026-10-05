@@ -569,23 +569,32 @@ header{position:fixed;inset:0 0 auto 0;z-index:100;height:56px;display:flex;alig
 })();
 
 /* ── MODELS ── */
-const MODELS=[
-  {id:'claude', n:'Claude', p:'AgentRouter', d:'Analisis Hukum', t:'TOP', tc:'#fbbf24'},
-  {id:'deepseek', n:'DeepSeek V3', p:'AgentRouter', d:'Logika Kuat', t:'HOT', tc:'#ff2d78'},
-  {id:'chatgpt', n:'ChatGPT', p:'AgentRouter', d:'Cepat & Akurat', t:'FAST', tc:'#10b981'},
-  {id:'gemma-4-26b-a4b-it:free', n:'Gemma 26B (Free)', p:'OpenRouter', d:'Model Terbuka', t:'FREE', tc:'#10b981'},
-  {id:'gemma-4-31b-it:free', n:'Gemma 31B (Free)', p:'OpenRouter', d:'Konteks Panjang', t:'FREE', tc:'#10b981'},
-  // Tambahkan baris ID Qwen dari OpenRouter di bawah ini
-  {id:'qwen/qwen-2.5-72b-instruct', n:'Qwen 2.5 72B', p:'OpenRouter', d:'Logika Tingkat Tinggi', t:'NEW', tc:'#00e5ff'}
+const MODELS = [
+  // --- GOOGLE GEMINI ---
+  {id:'gemini-1.5-flash', n:'Gemini 1.5 Flash', p:'Google', d:'Analisis Cepat & Panjang', t:'FREE', tc:'#4285F4'},
+  {id:'gemini-1.5-pro', n:'Gemini 1.5 Pro', p:'Google', d:'Penalaran Hukum Mendalam', t:'PRO', tc:'#ea4335'},
+  
+  // --- GROQ ---
+  {id:'llama-3.1-70b-versatile', n:'Llama 3.1 70B', p:'Groq', d:'Respons Sangat Kilat', t:'FAST', tc:'#f97316'},
+  {id:'mixtral-8x7b-32768', n:'Mixtral 8x7B', p:'Groq', d:'Multibahasa Cerdas', t:'FAST', tc:'#f97316'},
+  
+  // --- OPENROUTER ---
+  {id:'qwen/qwen-2.5-72b-instruct:free', n:'Qwen 2.5 72B', p:'OpenRouter', d:'Logika Tingkat Tinggi', t:'FREE', tc:'#10b981'},
+  {id:'space-byte/space-bunny-llama-3-8b-chat:free', n:'Spacebunny 8B', p:'OpenRouter', d:'Eksperimental', t:'NEW', tc:'#a855f7'},
+  {id:'liquid/lfm-40b:free', n:'Liquid LFM 40B', p:'OpenRouter', d:'Konteks Khusus', t:'FREE', tc:'#a855f7'},
+  {id:'nvidia/llama-3.1-nemotron-70b-instruct:free', n:'Nemotron 70B', p:'OpenRouter', d:'Akurat & Aman', t:'FREE', tc:'#10b981'},
+  {id:'cohere/command-r:free', n:'Command-R', p:'OpenRouter', d:'RAG & Logika', t:'FREE', tc:'#10b981'}
 ];
 
 /* ── STATE ── */
-const S={
-  model:localStorage.getItem('lmm')||'gemma-4-26b-a4b-it:free',
-  msgs:[],loggedIn:!!localStorage.getItem('lmu'),
-  user:JSON.parse(localStorage.getItem('lmu')||'null'),
-  tts:true,vPitch:1.1,vRate:1,vChar:null,
-  mic:false,recog:null,cnt:0,t0:Date.now(),authM:'login'
+const S = {
+  model: localStorage.getItem('lmm') || 'gemini-1.5-flash',
+  provider: localStorage.getItem('lmp') || 'Google',
+  msgs: [], loggedIn: !!localStorage.getItem('lmu'),
+  user: JSON.parse(localStorage.getItem('lmu') || 'null'),
+  tts: false, // <-- Diubah menjadi false agar tidak berisik otomatis
+  vPitch: 1.1, vRate: 1, vChar: null,
+  mic: false, recog: null, cnt: 0, t0: Date.now(), authM: 'login'
 };
 
 /* ── INIT ── */
@@ -614,7 +623,7 @@ function renderM(q=''){
   for(const[p,ms] of Object.entries(prov)){
     h+=`<div class="m-cat">● ${p}</div>`;
     ms.forEach(m=>{
-      h+=`<div class="m-opt${m.id===S.model?' sel':''}" onclick="pickM('${m.id}','${m.n}')">
+      h+=`<div class="m-opt${m.id===S.model?' sel':''}" onclick="pickM('${m.id}','${m.n}','${m.p}')">
         <div class="m-name">${m.n}</div>
         <div class="m-info"><span>${m.d}</span>${m.t?`<span class="m-tag" style="background:${m.tc}22;color:${m.tc};border:1px solid ${m.tc}44">${m.t}</span>`:''}</div>
       </div>`;
@@ -623,11 +632,14 @@ function renderM(q=''){
   el.innerHTML=h||'<p style="font-size:12px;color:var(--muted);text-align:center;padding:16px">Tidak ditemukan</p>';
 }
 function filterM(){renderM(document.getElementById('mSearch').value)}
-function pickM(id,name){
-  S.model=id;localStorage.setItem('lmm',id);
+function pickM(id, name, provider){
+  S.model = id; 
+  S.provider = provider;
+  localStorage.setItem('lmm', id);
+  localStorage.setItem('lmp', provider);
   renderM(document.getElementById('mSearch').value);
-  document.getElementById('curModel').textContent=name;
-  toast(`✅ Model: ${name}`,'s');
+  document.getElementById('curModel').textContent = name;
+  toast(`Model: ${name}`, 's');
 }
 
 /* ── CHAT ── */
@@ -688,6 +700,7 @@ async function send(){
       headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         model:S.model,
+        provider:S.provider,
         messages:[{role:'system',content:sys},...S.msgs.slice(-18)],
         temperature:parseFloat(document.getElementById('temp').value),
         max_tokens:parseInt(document.getElementById('toks').value)
