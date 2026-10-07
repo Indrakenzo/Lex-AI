@@ -4,69 +4,20 @@ export default async function handler(req, res) {
     }
 
     const { model, provider, messages, temperature, max_tokens } = req.body;
+    
+    // Default routing ke OpenRouter
+    let endpoint = 'https://openrouter.ai/api/v1/chat/completions';
+    let apiKey = process.env.OPENROUTER_API_KEY;
 
-    let endpoint = '';
-    let apiKey = '';
-
-    // Switch Case Otomatis Berdasarkan Penyedia
-    switch (provider) {
-        case 'Google':
-            endpoint = 'https://generativelanguage.googleapis.com/v1beta/openai/chat/completions';
-            apiKey = process.env.GEMINI_API_KEY;
-            break;
-        case 'Groq':
-            endpoint = 'https://api.groq.com/openai/v1/chat/completions';
-            apiKey = process.env.GROQ_API_KEY;
-            break;
-        case 'DeepInfra':
-            endpoint = 'https://api.deepinfra.com/v1/openai/chat/completions';
-            apiKey = process.env.DEEPINFRA_API_KEY;
-            break;
-        case 'Neosantara':
-            endpoint = 'https://app.neosantara.xyz/v1/chat/completions';
-            apiKey = process.env.NEOSANTARA_API_KEY;
-            break;
-        case 'Flushapi':
-            endpoint = 'https://flushapi.fun/v1/chat/completions';
-            apiKey = process.env.FLUSHAPI_API_KEY;
-            break;
-        case 'Kiraai':
-            endpoint = 'https://kiraai.vn/v1/chat/completions';
-            apiKey = process.env.KIRAAI_API_KEY;
-            break;
-        case 'Careke (Gemini)':
-            endpoint = 'https://api.careke.cn/v1/chat/completions';
-            apiKey = process.env.CAREKE_GEMINI_KEY;
-            break;
-        case 'Careke (Claude)':
-            endpoint = 'https://api.careke.cn/v1/chat/completions';
-            apiKey = process.env.CAREKE_CLAUDE_KEY;
-            break;
-        case 'Justwoker':
-            endpoint = 'https://api.justwoker.icu/v1/chat/completions';
-            apiKey = process.env.JUSTWOKER_API_KEY;
-            break;
-        case 'Kid1412':
-            endpoint = 'https://napi.kid1412.qzz.io/v1/chat/completions';
-            apiKey = process.env.KID1412_API_KEY;
-            break;
-        case 'Ai-Router':
-            endpoint = 'https://api.ai-router.dev/v1'; // Endpoint khusus untuk model GPT-5 bayangan
-            if (model.includes('gpt-') || model.includes('codex')) {
-                endpoint = 'https://api.ai-router.dev/v1/chat/completions';
-            }
-            apiKey = process.env.AIROUTER_API_KEY;
-            break;
-        case 'OpenRouter':
-        default:
-            endpoint = 'https://openrouter.ai/api/v1/chat/completions';
-            apiKey = process.env.OPENROUTER_API_KEY;
-            break;
+    // Jika yang dipilih adalah Ai-Router (GPT-5.5)
+    if (provider === 'Ai-Router') {
+        endpoint = 'https://api.ai-router.dev/v1/chat/completions';
+        apiKey = process.env.AIROUTER_API_KEY;
     }
 
     if (!apiKey) {
         return res.status(500).json({ 
-            error: `API Key untuk provider ${provider} belum dikonfigurasi di Environment Variables Vercel.` 
+            error: `API Key belum dikonfigurasi di Environment Variables Vercel untuk ${provider}.` 
         });
     }
 
@@ -90,7 +41,7 @@ export default async function handler(req, res) {
         const data = await response.json();
         
         if (!response.ok) {
-            throw new Error(data.error?.message || `Gagal menghubungi API ${provider}.`);
+            throw new Error(data.error?.message || `Gagal menghubungi API dari ${provider}.`);
         }
 
         res.status(200).json(data);
