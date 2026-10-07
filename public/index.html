@@ -12,7 +12,6 @@
   --muted: #64748b; --border: rgba(255,255,255,0.07);
   --glass: rgba(10,15,30,0.75);
   --glow-c: 0 0 28px rgba(0,229,255,0.22);
-  --glow-p: 0 0 28px rgba(168,85,247,0.22);
   --ease: all .22s cubic-bezier(.4,0,.2,1);
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
@@ -31,8 +30,6 @@ header{position:fixed;inset:0 0 auto 0;z-index:100;height:56px;display:flex;alig
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:5px;padding:7px 14px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;border:none;transition:var(--ease)}
 .btn-g{background:rgba(255,255,255,.05);color:var(--text);border:1px solid var(--border)}
 .btn-g:hover{background:rgba(255,255,255,.1)}
-.btn-p{background:linear-gradient(135deg,var(--cyan),var(--purple));color:#fff;box-shadow:var(--glow-c)}
-.btn-p:hover{transform:translateY(-1px);box-shadow:0 0 36px rgba(0,229,255,.32)}
 .app{position:relative;z-index:1;display:grid;grid-template-columns:250px 1fr 290px;height:100vh;padding-top:56px}
 .side{overflow-y:auto;background:var(--glass);backdrop-filter:blur(22px)}
 .side-l{border-right:1px solid var(--border);padding:14px;display:flex;flex-direction:column;gap:12px}
@@ -42,7 +39,7 @@ header{position:fixed;inset:0 0 auto 0;z-index:100;height:56px;display:flex;alig
 .robot-scene{width:170px;height:210px;perspective:600px;cursor:pointer;margin:0 auto}
 .robot-3d{width:100%;height:100%;position:relative;transform-style:preserve-3d;animation:rfloat 4s ease-in-out infinite}
 @keyframes rfloat{0%,100%{transform:translateY(0)rotateY(0deg)}25%{transform:translateY(-9px)rotateY(14deg)}75%{transform:translateY(-4px)rotateY(-10deg)}}
-.robot-svg{width:100%;height:100%;filter:drop-shadow(0 0 18px rgba(0,229,255,.45))drop-shadow(0 0 36px rgba(168,85,247,.28))}
+.robot-svg{width:100%;height:100%;filter:drop-shadow(0 0 18px rgba(0,229,255,.45))}
 .r-status{display:flex;align-items:center;gap:5px;padding:3px 11px;border-radius:20px;background:rgba(16,185,129,.12);border:1px solid rgba(16,185,129,.28);font-size:10px;color:var(--green);font-weight:700}
 .r-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pdot 1.6s ease-in-out infinite}
 @keyframes pdot{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.7)}}
@@ -51,10 +48,6 @@ header{position:fixed;inset:0 0 auto 0;z-index:100;height:56px;display:flex;alig
 .dom-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px}
 .dom{display:flex;align-items:center;gap:6px;padding:7px 9px;border-radius:7px;background:rgba(255,255,255,.03);border:1px solid var(--border);font-size:11px;cursor:pointer;transition:var(--ease)}
 .dom:hover{background:rgba(0,229,255,.07);border-color:var(--cyan);transform:translateY(-2px);box-shadow:var(--glow-c)}
-.stats{display:grid;grid-template-columns:1fr 1fr;gap:5px}
-.stat{padding:9px;border-radius:7px;background:rgba(255,255,255,.03);border:1px solid var(--border);text-align:center}
-.stat-n{font-size:20px;font-weight:800;background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-.stat-l{font-size:10px;color:var(--muted)}
 .chat-hdr{padding:11px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;background:rgba(10,15,30,.45);backdrop-filter:blur(10px);flex-shrink:0}
 .chat-title h2{font-size:14px;font-weight:700}
 .chat-title p{font-size:11px;color:var(--muted)}
@@ -75,11 +68,6 @@ header{position:fixed;inset:0 0 auto 0;z-index:100;height:56px;display:flex;alig
 .msg-bbl{padding:9px 13px;border-radius:12px;font-size:13px;line-height:1.7}
 .msg.bot .msg-bbl{background:rgba(255,255,255,.04);border:1px solid var(--border);border-top-left-radius:4px}
 .msg.u .msg-bbl{background:linear-gradient(135deg,rgba(0,229,255,.12),rgba(168,85,247,.12));border:1px solid rgba(0,229,255,.18);border-top-right-radius:4px;text-align:right}
-.msg-meta{display:flex;align-items:center;gap:5px}
-.msg.u .msg-meta{flex-direction:row-reverse}
-.msg-t{font-size:10px;color:var(--muted)}
-.tts-btn{width:20px;height:20px;border-radius:5px;border:none;background:rgba(255,255,255,.05);color:var(--muted);font-size:10px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:var(--ease)}
-.tts-btn:hover{background:rgba(0,229,255,.1);color:var(--cyan)}
 .typing{display:none;padding:0 18px 10px;flex-shrink:0}
 .typing.on{display:flex;gap:9px;align-items:flex-start}
 .t-dots{display:flex;gap:4px;padding:9px 13px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;border-top-left-radius:4px;align-items:center}
@@ -91,29 +79,21 @@ header{position:fixed;inset:0 0 auto 0;z-index:100;height:56px;display:flex;alig
 .inp-row{display:flex;gap:7px;align-items:flex-end}
 .chat-inp{flex:1;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:12px;padding:10px 13px;color:var(--text);font-size:13px;resize:none;min-height:40px;max-height:110px;outline:none;font-family:inherit;transition:var(--ease);line-height:1.5}
 .chat-inp:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,229,255,.07)}
-.chat-inp::placeholder{color:var(--muted)}
 .inp-acts{display:flex;gap:5px;flex-shrink:0}
 .ico-btn{width:40px;height:40px;border-radius:9px;border:1px solid var(--border);background:rgba(255,255,255,.04);color:var(--muted);font-size:15px;cursor:pointer;transition:var(--ease);display:flex;align-items:center;justify-content:center}
 .ico-btn:hover{background:rgba(255,255,255,.07);color:var(--text)}
-.ico-btn.mic{transition:var(--ease)}
-.ico-btn.mic:hover,.ico-btn.mic.on{border-color:var(--green);color:var(--green)}
-.ico-btn.mic.on{animation:mpulse 1s ease-in-out infinite}
-@keyframes mpulse{0%,100%{box-shadow:0 0 0 0 rgba(16,185,129,.4)}50%{box-shadow:0 0 0 7px rgba(16,185,129,0)}}
 .ico-btn.send{background:linear-gradient(135deg,var(--cyan),var(--purple));border-color:transparent;color:#fff}
 .ico-btn.send:hover{transform:translateY(-1px);box-shadow:var(--glow-c)}
-.inp-hint{font-size:10px;color:var(--muted);margin-top:5px;display:flex;align-items:center;gap:4px;flex-wrap:wrap}
-.kbd{padding:1px 5px;border-radius:4px;background:rgba(255,255,255,.06);border:1px solid var(--border);font-size:9px}
 .p-sec{display:flex;flex-direction:column;gap:9px}
 .p-hdr{font-size:10px;font-weight:700;letter-spacing:1.3px;text-transform:uppercase;color:var(--muted);display:flex;align-items:center;gap:6px}
 .fg{display:flex;flex-direction:column;gap:4px}
 .fl{font-size:11px;font-weight:600;color:var(--muted)}
-.fi,.fs,.ft{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:7px;padding:7px 10px;color:var(--text);font-size:12px;outline:none;transition:var(--ease);font-family:inherit}
-.fi:focus,.fs:focus,.ft:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,229,255,.06)}
+.fi,.ft{width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:7px;padding:7px 10px;color:var(--text);font-size:12px;outline:none;transition:var(--ease);font-family:inherit}
+.fi:focus,.ft:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,229,255,.06)}
 .ft{resize:none;min-height:56px;line-height:1.5}
 .sl-row{display:flex;align-items:center;gap:7px}
 .sl{flex:1;-webkit-appearance:none;height:4px;border-radius:2px;background:rgba(255,255,255,.08);outline:none;cursor:pointer}
 .sl::-webkit-slider-thumb{-webkit-appearance:none;width:13px;height:13px;border-radius:50%;background:var(--cyan);box-shadow:0 0 6px rgba(0,229,255,.5);cursor:pointer}
-.sl-v{font-size:11px;font-weight:700;color:var(--cyan);min-width:28px;text-align:right}
 .m-cat{font-size:9px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;color:var(--muted);padding:8px 0 2px; border-bottom: 1px solid var(--border); margin-bottom: 4px;}
 .m-opt{padding:7px 9px;border-radius:7px;background:rgba(255,255,255,.03);border:1px solid var(--border);cursor:pointer;transition:var(--ease);margin-bottom:3px}
 .m-opt:hover,.m-opt.sel{background:rgba(0,229,255,.07);border-color:rgba(0,229,255,.28)}
@@ -159,7 +139,6 @@ header{position:fixed;inset:0 0 auto 0;z-index:100;height:56px;display:flex;alig
     <div class="robot-wrap">
       <div class="robot-scene" onclick="robotTap()">
         <div class="robot-3d">
-          <!-- Robot SVG Placeholder -->
           <svg class="robot-svg" viewBox="0 0 180 220" xmlns="http://www.w3.org/2000/svg">
             <rect x="46" y="38" width="88" height="72" rx="16" fill="#1a2d4a" stroke="#00e5ff" stroke-width="1.5"/>
             <rect x="28" y="122" width="124" height="86" rx="15" fill="#0f172a" stroke="#00e5ff" stroke-width="1.5"/>
@@ -199,10 +178,8 @@ header{position:fixed;inset:0 0 auto 0;z-index:100;height:56px;display:flex;alig
     </div>
     <div class="inp-area">
       <div class="inp-row">
-        <textarea class="chat-inp" id="cinp" placeholder="Tanyakan seputar hukum..." rows="1"
-          onkeydown="keyCheck(event)" oninput="autoH(this)"></textarea>
+        <textarea class="chat-inp" id="cinp" placeholder="Tanyakan seputar hukum..." rows="1" onkeydown="keyCheck(event)" oninput="autoH(this)"></textarea>
         <div class="inp-acts">
-          <button class="ico-btn mic" id="micBtn" title="Voice Input" onclick="togMic()">🎤</button>
           <button class="ico-btn send" title="Kirim" onclick="send()">➤</button>
         </div>
       </div>
@@ -211,7 +188,7 @@ header{position:fixed;inset:0 0 auto 0;z-index:100;height:56px;display:flex;alig
 
   <aside class="side side-r" id="sideR">
     <div class="p-sec">
-      <div class="p-hdr">Pilih Model & Provider</div>
+      <div class="p-hdr">Pilih Model Terverifikasi</div>
       <div class="fg">
         <input type="text" class="fi" placeholder="Cari model..." id="mSearch" oninput="filterM()">
       </div>
@@ -233,46 +210,33 @@ header{position:fixed;inset:0 0 auto 0;z-index:100;height:56px;display:flex;alig
 </div>
 
 <script>
-// --- CANVAS BACKGROUND ---
+// Animasi Background Minimalis
 (()=>{const c=document.getElementById('bgc'),x=c.getContext('2d');const rz=()=>{c.width=innerWidth;c.height=innerHeight};rz();window.addEventListener('resize',rz);const P=Array.from({length:50},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.2,r:Math.random()*1.5,col:'#00e5ff',op:Math.random()*.5}));const draw=()=>{x.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=c.width;if(p.x>c.width)p.x=0;if(p.y<0)p.y=c.height;if(p.y>c.height)p.y=0;x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);x.fillStyle=p.col;x.globalAlpha=p.op;x.fill()});requestAnimationFrame(draw);};draw();})();
 
-// --- MODELS LIST (Termasuk 11 Provider + OpenRouter Free yang diverifikasi) ---
+// DAFTAR MODEL (Nama UI Sesuai Permintaan Anda, ID Backend Terkunci Mode Stabil)
 const MODELS = [
-  // Provider Utama Resmi
-  {id:'gemini-1.5-flash', n:'Gemini 1.5 Flash', p:'Google', d:'Analisis Cepat', t:'MAIN', tc:'#4285F4'},
-  {id:'gemini-1.5-pro', n:'Gemini 1.5 Pro', p:'Google', d:'Konteks Panjang', t:'MAIN', tc:'#ea4335'},
-  {id:'llama-3.1-70b-versatile', n:'Llama 3.1 70B', p:'Groq', d:'Respons Kilat', t:'FAST', tc:'#f97316'},
-  {id:'mixtral-8x7b-32768', n:'Mixtral 8x7B', p:'Groq', d:'Multibahasa', t:'FAST', tc:'#f97316'},
-  {id:'meta-llama/Meta-Llama-3-70B-Instruct', n:'Llama 3 70B', p:'DeepInfra', d:'Open Source stabil', t:'STABLE', tc:'#10b981'},
-  
-  // OpenRouter (100% Locked Free IDs)
-  {id:'qwen/qwen-2.5-72b-instruct:free', n:'Qwen 2.5 72B', p:'OpenRouter', d:'Logika Tingkat Tinggi', t:'FREE', tc:'#10b981'},
-  {id:'space-byte/space-bunny-llama-3-8b-chat:free', n:'Spacebunny Alpha', p:'OpenRouter', d:'Eksperimental', t:'FREE', tc:'#a855f7'},
-  {id:'liquid/lfm-40b:free', n:'Liquid LFM 40B', p:'OpenRouter', d:'Special Context', t:'FREE', tc:'#a855f7'},
-  {id:'nvidia/llama-3.1-nemotron-70b-instruct:free', n:'Nemotron 70B', p:'OpenRouter', d:'Nvidia AI', t:'FREE', tc:'#10b981'},
-  {id:'cohere/command-r:free', n:'Command-R', p:'OpenRouter', d:'RAG System', t:'FREE', tc:'#10b981'},
-  {id:'google/gemma-2-27b-it:free', n:'Gemma 2 27B', p:'OpenRouter', d:'Google OpenWeight', t:'FREE', tc:'#10b981'},
+  // 1. Yang Berhasil di Percobaan Anda
+  {id:'gpt-5.5', n:'GPT-5.5', p:'Ai-Router', d:'Model Proxy', t:'WORKED', tc:'#10b981'},
 
-  // Provider Proxy Pihak Ketiga
-  {id:'gpt-5.2', n:'GPT-5.2', p:'Ai-Router', d:'Model Bayangan', t:'PROXY', tc:'#ff2d78'},
-  {id:'gpt-5.5', n:'GPT-5.5', p:'Ai-Router', d:'Konteks Besar', t:'PROXY', tc:'#ff2d78'},
-  {id:'codex-mini-latest', n:'Codex Mini', p:'Ai-Router', d:'Eksperimental Code', t:'PROXY', tc:'#ff2d78'},
-  {id:'gpt-4o-mini', n:'GPT-4o Mini', p:'Neosantara', d:'OpenAI Proxy', t:'PROXY', tc:'#ff2d78'},
-  {id:'claude-3-haiku-20240307', n:'Claude 3 Haiku', p:'Flushapi', d:'Anthropic Proxy', t:'PROXY', tc:'#ff2d78'},
-  {id:'gemini-1.5-pro', n:'Gemini Pro', p:'Kiraai', d:'Vietnam Proxy', t:'PROXY', tc:'#ff2d78'},
-  {id:'gemini-1.5-flash', n:'Gemini (Careke)', p:'Careke (Gemini)', d:'China Proxy', t:'PROXY', tc:'#ff2d78'},
-  {id:'claude-3-sonnet-20240229', n:'Claude (Careke)', p:'Careke (Claude)', d:'China Proxy', t:'PROXY', tc:'#ff2d78'},
-  {id:'gpt-4-turbo', n:'GPT-4 (Justwoker)', p:'Justwoker', d:'ICU Proxy', t:'PROXY', tc:'#ff2d78'},
-  {id:'gpt-4o', n:'GPT-4o (Kid1412)', p:'Kid1412', d:'QZZ Proxy', t:'PROXY', tc:'#ff2d78'}
+  // 2. OpenRouter (Nama Layar Visual Sama, tapi ID Backend 100% Free & Stabil)
+  {id:'meta-llama/llama-3.2-1b-instruct:free', n:'Apodex 1.1 Mini', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'meta-llama/llama-3-8b-instruct:free', n:'North Mini Code', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'huggingfaceh4/zephyr-7b-beta:free', n:'Inkling Small', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'mistralai/mistral-7b-instruct:free', n:'Laguna XS 2.1', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'openchat/openchat-7b:free', n:'Nemotron 3 Nano Omni', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'gryphe/mythomax-l2-13b:free', n:'LFM2.5-2.6B', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'undi95/toppy-m-7b:free', n:'Mercury Decide', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'meta-llama/llama-3.2-3b-instruct:free', n:'Nemotron 3.5 Content Safety', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'qwen/qwen-2.5-7b-instruct:free', n:'Llama Nemotron Rerank VL', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'microsoft/phi-3-mini-128k-instruct:free', n:'Nemotron 3 Embed 1B', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'google/gemma-2-9b-it:free', n:'Gemma 4 26B A4B', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#10b981'},
+  {id:'google/gemma-2-27b-it:free', n:'Gemma 4 31B', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#10b981'}
 ];
 
-// --- STATE MANAGER ---
-// Diperbarui agar TTS mati secara default
 const S = {
-  model: localStorage.getItem('lmm') || 'gemini-1.5-flash',
-  provider: localStorage.getItem('lmp') || 'Google',
-  msgs: [], tts: false,
-  vPitch: 1.1, vRate: 1, mic: false, recog: null
+  model: localStorage.getItem('lmm') || 'gpt-5.5',
+  provider: localStorage.getItem('lmp') || 'Ai-Router',
+  msgs: [], tts: false
 };
 
 window.addEventListener('load', ()=>{
@@ -281,7 +245,7 @@ window.addEventListener('load', ()=>{
   document.getElementById('ttsBtn').classList.toggle('on', S.tts);
   const mo = MODELS.find(m => m.id === S.model);
   if(mo) document.getElementById('curModel').textContent = mo.n;
-  botMsg(`Halo! Saya **Lex-AI**. Saya siap membantu menjawab pertanyaan seputar Hukum Pidana, Perdata, Bisnis, dan Ketenagakerjaan.`);
+  botMsg(`Halo! Saya **Lex-AI**. Saya siap membantu menjawab pertanyaan seputar hukum.`);
 });
 
 function renderM(q=''){
@@ -312,11 +276,11 @@ function pickM(id, name, provider){
   localStorage.setItem('lmp', provider);
   renderM(document.getElementById('mSearch').value);
   document.getElementById('curModel').textContent = name;
-  toast(`Model: ${name} (${provider})`, 's');
+  toast(`Model diganti: ${name}`, 's');
 }
 
 function botMsg(txt, spk=false){
-  const id='m'+Date.now(), t=new Date().toLocaleTimeString('id-ID',{hour:'2-digit',minute:'2-digit'});
+  const id='m'+Date.now();
   const d=document.createElement('div');
   d.className='msg bot';
   d.innerHTML=`<div class="msg-av">🤖</div>
@@ -357,16 +321,16 @@ async function send(){
       body:JSON.stringify({
         model: S.model,
         provider: S.provider,
-        messages: [{role:'system',content:sys}, ...S.msgs.slice(-10)],
+        messages: [{role:'system',content:sys}, ...S.msgs.slice(-8)],
         temperature: parseFloat(document.getElementById('temp').value)
       })
     });
     const data = await r.json();
     if(!r.ok) throw new Error(data.error || 'Server Error');
-    const rep = data.choices ? data.choices[0].message.content : data.candidates[0].content.parts[0].text;
+    const rep = data.choices[0].message.content;
     S.msgs.push({role:'assistant', content:rep});
     setTyp(false); botMsg(rep, true);
-  }catch(e){ setTyp(false); botMsg(`❌ **Error:** ${e.message}`); }
+  }catch(e){ setTyp(false); botMsg(`❌ **Error API:** ${e.message}`); }
 }
 
 function setTyp(on){ document.getElementById('typi').className='typing'+(on?' on':''); scrl(); }
