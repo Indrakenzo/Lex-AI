@@ -213,24 +213,36 @@ header{position:fixed;inset:0 0 auto 0;z-index:100;height:56px;display:flex;alig
 // Animasi Background Minimalis
 (()=>{const c=document.getElementById('bgc'),x=c.getContext('2d');const rz=()=>{c.width=innerWidth;c.height=innerHeight};rz();window.addEventListener('resize',rz);const P=Array.from({length:50},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.2,r:Math.random()*1.5,col:'#00e5ff',op:Math.random()*.5}));const draw=()=>{x.clearRect(0,0,c.width,c.height);P.forEach(p=>{p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=c.width;if(p.x>c.width)p.x=0;if(p.y<0)p.y=c.height;if(p.y>c.height)p.y=0;x.beginPath();x.arc(p.x,p.y,p.r,0,Math.PI*2);x.fillStyle=p.col;x.globalAlpha=p.op;x.fill()});requestAnimationFrame(draw);};draw();})();
 
-// DAFTAR MODEL (Nama UI Sesuai Permintaan Anda, ID Backend Terkunci Mode Stabil)
+// DAFTAR MODEL
 const MODELS = [
-  // 1. Yang Berhasil di Percobaan Anda
-  {id:'gpt-5.5', n:'GPT-5.5', p:'Ai-Router', d:'Model Proxy', t:'WORKED', tc:'#10b981'},
+  // --- AI-Router ---
+  {id:'gpt-5.5', n:'GPT-5.5', p:'Ai-Router', d:'Model Stabil (Aktif)', t:'WORKED', tc:'#10b981'},
+  {id:'gpt-5.2', n:'GPT-5.2', p:'Ai-Router', d:'Opsi Cadangan', t:'PROXY', tc:'#f97316'},
+  {id:'codex-mini-latest', n:'Codex Mini', p:'Ai-Router', d:'Opsi Cadangan', t:'PROXY', tc:'#f97316'},
 
-  // 2. OpenRouter (Nama Layar Visual Sama, tapi ID Backend 100% Free & Stabil)
-  {id:'meta-llama/llama-3.2-1b-instruct:free', n:'Apodex 1.1 Mini', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
-  {id:'meta-llama/llama-3-8b-instruct:free', n:'North Mini Code', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
-  {id:'huggingfaceh4/zephyr-7b-beta:free', n:'Inkling Small', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
-  {id:'mistralai/mistral-7b-instruct:free', n:'Laguna XS 2.1', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
-  {id:'openchat/openchat-7b:free', n:'Nemotron 3 Nano Omni', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
-  {id:'gryphe/mythomax-l2-13b:free', n:'LFM2.5-2.6B', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
-  {id:'undi95/toppy-m-7b:free', n:'Mercury Decide', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
-  {id:'meta-llama/llama-3.2-3b-instruct:free', n:'Nemotron 3.5 Content Safety', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
-  {id:'qwen/qwen-2.5-7b-instruct:free', n:'Llama Nemotron Rerank VL', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
-  {id:'microsoft/phi-3-mini-128k-instruct:free', n:'Nemotron 3 Embed 1B', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
-  {id:'google/gemma-2-9b-it:free', n:'Gemma 4 26B A4B', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#10b981'},
-  {id:'google/gemma-2-27b-it:free', n:'Gemma 4 31B', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#10b981'}
+  // --- OpenRouter (DIPERBAIKI 100% SESUAI DAFTAR DARI DASHBOARD) ---
+  {id:'nvidia/nemotron-3.5-lightning:free', n:'nvidia/nemotron-3.5-lightning:free', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'openrouter/free', n:'openrouter/free', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'poolside/laguna-s-2.1:free', n:'poolside/laguna-s-2.1:free', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'dots-studio/dots-3-note-preview:free', n:'dots-studio/dots-3-note-preview:free', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'nvidia/nemotron-3-super-120b-a12b:free', n:'nvidia/nemotron-3-super-120b-a12b:free', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'apodex/apodex-1.1-mini:free', n:'apodex/apodex-1.1-mini:free', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'thinkingmachines/inkling:free', n:'thinkingmachines/inkling:free', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'cohere/north-mini-code:free', n:'cohere/north-mini-code:free', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'thinkingmachines/inkling-small:free', n:'thinkingmachines/inkling-small:free', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'poolside/laguna-xs-2.1:free', n:'poolside/laguna-xs-2.1:free', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free', n:'nvidia/nemotron-3-nano-omni-30b-a3b-reasoning:free', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'inception/mercury-decide:free', n:'inception/mercury-decide:free', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'liquid/lfm-2.5-2.6b:free', n:'liquid/lfm-2.5-2.6b:free', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'nvidia/llama-nemotron-rerank-vl-1b-v2:free', n:'nvidia/llama-nemotron-rerank-vl-1b-v2:free', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'nvidia/nemotron-3.5-content-safety:free', n:'nvidia/nemotron-3.5-content-safety:free', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'nvidia/nemotron-3-embed-1b:free', n:'nvidia/nemotron-3-embed-1b:free', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'google/gemma-4-26b-a4b-it:free', n:'google/gemma-4-26b-a4b-it:free', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'nvidia/llama-nemotron-embed-vl-1b-v2:free', n:'nvidia/llama-nemotron-embed-vl-1b-v2:free', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'google/gemma-4-31b-it:free', n:'google/gemma-4-31b-it:free', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'respan/span-01-lite:free', n:'respan/span-01-lite:free', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'liquid/lfm-2.5-embedding-350m:free', n:'liquid/lfm-2.5-embedding-350m:free', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'},
+  {id:'fish-audio/s2.1-pro-free:free', n:'fish-audio/s2.1-pro-free:free', p:'OpenRouter', d:'Free Model', t:'FREE', tc:'#a855f7'}
 ];
 
 const S = {
