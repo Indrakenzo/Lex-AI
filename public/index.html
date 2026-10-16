@@ -3,161 +3,135 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Lex-AI | Multimodal</title>
+<title>Lex-AI Advanced</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap');
-:root {
-  --bg: #050505; --glass: rgba(15, 23, 42, 0.4); --glass-border: rgba(255, 255, 255, 0.08);
-  --cyan: #00e5ff; --purple: #a855f7; --pink: #ff2d78; --text: #f8fafc; --muted: #94a3b8;
-  --btn-shadow: 0 6px 0 #0096a6; --btn-hover: 0 2px 0 #0096a6;
-}
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', sans-serif; }
-body { background: var(--bg); color: var(--text); height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+  :root {
+    --bg-dark: #050505;
+    --glass-bg: rgba(15, 20, 30, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.08);
+    --glow-primary: #00e5ff;
+    --glow-secondary: #a855f7;
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --shadow-3d: 0 10px 30px rgba(0, 0, 0, 0.8), inset 0 1px 1px rgba(255, 255, 255, 0.1);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
-/* 3D Background */
-#bg-canvas { position: fixed; top: 0; left: 0; z-index: -1; width: 100vw; height: 100vh; }
+  * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Inter', system-ui, sans-serif; }
+  body { background-color: var(--bg-dark); color: var(--text-main); height: 100vh; overflow: hidden; display: flex; flex-direction: column; }
+  ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 10px; }
 
-/* Header 3D Glass */
-header {
-  height: 65px; display: flex; justify-content: space-between; align-items: center; padding: 0 20px;
-  background: rgba(5, 5, 5, 0.6); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  border-bottom: 1px solid var(--glass-border); z-index: 10;
-}
-.logo { font-size: 22px; font-weight: 800; background: linear-gradient(90deg, var(--cyan), var(--purple)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; display: flex; align-items: center; gap: 10px; }
-.logo-icon { width: 35px; height: 35px; background: linear-gradient(135deg, var(--cyan), var(--purple)); border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,229,255,0.4); color: #fff; font-size: 18px; }
+  /* Animated Background */
+  .bg-animation { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: radial-gradient(circle at 50% 50%, #1a1025 0%, #050505 100%); overflow: hidden; }
+  .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4; animation: float 15s infinite alternate ease-in-out; }
+  .orb-1 { width: 300px; height: 300px; background: var(--glow-primary); top: -10%; left: -10%; }
+  .orb-2 { width: 400px; height: 400px; background: var(--glow-secondary); bottom: -20%; right: -10%; animation-delay: -5s; }
+  @keyframes float { 0% { transform: translate(0, 0) scale(1); } 100% { transform: translate(50px, 50px) scale(1.2); } }
 
-/* 3D Buttons */
-.btn-3d {
-  background: linear-gradient(135deg, var(--cyan), var(--purple)); color: #fff; border: none; padding: 8px 16px; border-radius: 8px;
-  font-weight: 600; cursor: pointer; box-shadow: var(--btn-shadow); transform: translateY(0); transition: all 0.15s ease;
-}
-.btn-3d:active { transform: translateY(4px); box-shadow: var(--btn-hover); }
-.btn-glass { background: var(--glass); border: 1px solid var(--glass-border); color: var(--text); padding: 8px 16px; border-radius: 8px; cursor: pointer; transition: all 0.2s; }
-.btn-glass:hover { background: rgba(255,255,255,0.1); }
+  /* Header */
+  header { padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; background: rgba(5,5,5,0.8); backdrop-filter: blur(20px); border-bottom: 1px solid var(--glass-border); z-index: 10; }
+  .logo { font-size: 20px; font-weight: 800; background: linear-gradient(90deg, var(--glow-primary), var(--glow-secondary)); -webkit-background-clip: text; color: transparent; display: flex; align-items: center; gap: 10px; }
+  .logo::before { content: "⚡"; font-size: 24px; }
+  .header-actions { display: flex; gap: 10px; }
+  .btn { background: var(--glass-bg); border: 1px solid var(--glass-border); color: var(--text-main); padding: 8px 16px; border-radius: 12px; cursor: pointer; font-size: 13px; font-weight: 600; box-shadow: var(--shadow-3d); transition: var(--transition); display: flex; align-items: center; gap: 6px; }
+  .btn:hover { background: rgba(255,255,255,0.1); border-color: var(--glow-primary); transform: translateY(-2px); }
 
-/* Layout */
-.container { display: flex; flex: 1; overflow: hidden; position: relative; }
-.sidebar { width: 320px; background: rgba(10, 15, 30, 0.6); backdrop-filter: blur(25px); border-right: 1px solid var(--glass-border); display: flex; flex-direction: column; padding: 20px; overflow-y: auto; transition: transform 0.3s ease; }
-.chat-area { flex: 1; display: flex; flex-direction: column; position: relative; }
+  /* Main Layout */
+  .layout { display: flex; flex: 1; overflow: hidden; position: relative; }
+  
+  /* Sidebar (Model Selector) */
+  .sidebar { width: 320px; background: var(--glass-bg); backdrop-filter: blur(20px); border-right: 1px solid var(--glass-border); display: flex; flex-direction: column; transition: var(--transition); z-index: 5; }
+  .sidebar-header { padding: 20px; border-bottom: 1px solid var(--glass-border); font-size: 14px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+  .model-list { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 8px; }
+  .model-item { background: rgba(0,0,0,0.4); border: 1px solid var(--glass-border); padding: 12px 15px; border-radius: 12px; cursor: pointer; transition: var(--transition); box-shadow: 0 4px 15px rgba(0,0,0,0.3); display: flex; flex-direction: column; gap: 4px; }
+  .model-item:hover { border-color: var(--glow-secondary); transform: translateX(5px); }
+  .model-item.active { border-color: var(--glow-primary); background: rgba(0, 229, 255, 0.05); box-shadow: 0 0 20px rgba(0, 229, 255, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.2); }
+  .model-name { font-size: 13px; font-weight: 600; color: var(--text-main); word-break: break-all; }
+  .model-provider { font-size: 11px; color: var(--glow-primary); font-weight: 700; }
 
-/* Model List UI */
-.section-title { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--cyan); margin-bottom: 15px; font-weight: 800; }
-.model-item { padding: 12px; border-radius: 12px; background: rgba(255,255,255,0.03); border: 1px solid var(--glass-border); margin-bottom: 10px; cursor: pointer; transition: all 0.2s; position: relative; overflow: hidden; }
-.model-item:hover { transform: translateX(5px); background: rgba(255,255,255,0.08); border-color: rgba(0,229,255,0.3); }
-.model-item.active { background: rgba(0,229,255,0.1); border-color: var(--cyan); box-shadow: 0 0 15px rgba(0,229,255,0.15); }
-.model-name { font-size: 13px; font-weight: 600; margin-bottom: 4px; word-break: break-all; }
-.model-prov { font-size: 10px; color: var(--muted); }
+  /* Chat Area */
+  .chat-area { flex: 1; display: flex; flex-direction: column; position: relative; }
+  .chat-messages { flex: 1; overflow-y: auto; padding: 25px; display: flex; flex-direction: column; gap: 20px; scroll-behavior: smooth; }
+  
+  .msg-wrapper { display: flex; gap: 15px; max-width: 85%; animation: slideIn 0.3s ease-out; }
+  .msg-wrapper.user { align-self: flex-end; flex-direction: row-reverse; }
+  @keyframes slideIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  
+  .avatar { width: 38px; height: 38px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; box-shadow: var(--shadow-3d); flex-shrink: 0; }
+  .bot-avatar { background: linear-gradient(135deg, var(--glow-primary), var(--glow-secondary)); }
+  .user-avatar { background: linear-gradient(135deg, #f59e0b, #ec4899); }
+  
+  .msg-bubble { padding: 14px 18px; border-radius: 16px; font-size: 14px; line-height: 1.6; box-shadow: var(--shadow-3d); position: relative; }
+  .msg-wrapper.bot .msg-bubble { background: rgba(20, 25, 40, 0.8); border: 1px solid var(--glass-border); border-top-left-radius: 4px; backdrop-filter: blur(10px); }
+  .msg-wrapper.user .msg-bubble { background: linear-gradient(135deg, rgba(0, 229, 255, 0.15), rgba(168, 85, 247, 0.15)); border: 1px solid rgba(0, 229, 255, 0.3); border-top-right-radius: 4px; backdrop-filter: blur(10px); }
+  .msg-img-preview { max-width: 100%; border-radius: 8px; margin-top: 10px; border: 1px solid var(--glass-border); }
+  
+  /* Input Area (Semi 3D) */
+  .input-container { padding: 20px 25px; background: linear-gradient(to top, var(--bg-dark) 50%, transparent); }
+  .input-box { display: flex; align-items: flex-end; gap: 10px; background: rgba(10, 15, 25, 0.8); border: 1px solid var(--glass-border); padding: 10px 15px; border-radius: 20px; box-shadow: var(--shadow-3d); backdrop-filter: blur(20px); position: relative; transition: var(--transition); }
+  .input-box:focus-within { border-color: var(--glow-primary); box-shadow: 0 0 25px rgba(0,229,255,0.2), inset 0 1px 1px rgba(255,255,255,0.1); }
+  
+  .file-preview-badge { position: absolute; top: -45px; left: 15px; background: var(--glass-bg); padding: 5px 12px; border-radius: 20px; border: 1px solid var(--glow-primary); font-size: 11px; display: none; align-items: center; gap: 8px; box-shadow: var(--shadow-3d); }
+  .file-preview-badge img { height: 20px; border-radius: 4px; }
+  
+  textarea { flex: 1; background: transparent; border: none; color: var(--text-main); font-size: 14px; resize: none; max-height: 120px; padding: 10px 0; outline: none; line-height: 1.5; }
+  textarea::placeholder { color: var(--text-muted); }
+  
+  .action-btn { width: 42px; height: 42px; border-radius: 14px; border: none; background: rgba(255,255,255,0.05); color: var(--text-muted); font-size: 18px; cursor: pointer; transition: var(--transition); display: flex; align-items: center; justify-content: center; flex-shrink: 0; box-shadow: inset 0 1px 0 rgba(255,255,255,0.05); }
+  .action-btn:hover { background: rgba(255,255,255,0.1); color: var(--text-main); transform: translateY(-2px); }
+  .btn-send { background: linear-gradient(135deg, var(--glow-primary), var(--glow-secondary)); color: #fff; box-shadow: 0 5px 15px rgba(0,229,255,0.3); }
+  .btn-send:hover { box-shadow: 0 8px 25px rgba(0,229,255,0.5); }
+  .mic-active { color: #ef4444; animation: pulse 1.5s infinite; }
+  @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
 
-/* Chat Bubbles */
-.msgs { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 20px; scroll-behavior: smooth; }
-.msg { display: flex; gap: 12px; max-width: 85%; animation: slideIn 0.3s cubic-bezier(0.2, 0.8, 0.2, 1); }
-.msg.user { align-self: flex-end; flex-direction: row-reverse; }
-@keyframes slideIn { from{ opacity:0; transform:translateY(20px); } to{ opacity:1; transform:translateY(0); } }
-.avatar { width: 35px; height: 35px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; box-shadow: 0 4px 10px rgba(0,0,0,0.3); }
-.bot .avatar { background: linear-gradient(135deg, var(--cyan), var(--purple)); }
-.user .avatar { background: linear-gradient(135deg, var(--pink), var(--gold)); }
-.bubble { padding: 14px 18px; border-radius: 16px; font-size: 14px; line-height: 1.6; background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border); backdrop-filter: blur(10px); }
-.bot .bubble { border-top-left-radius: 4px; box-shadow: inset 1px 1px 0 rgba(255,255,255,0.1); }
-.user .bubble { border-top-right-radius: 4px; background: linear-gradient(135deg, rgba(0,229,255,0.15), rgba(168,85,247,0.15)); border-color: rgba(0,229,255,0.3); }
-.msg-img { max-width: 100%; border-radius: 8px; margin-top: 10px; }
-
-/* Input Area (3D Glass) */
-.input-zone { padding: 20px; background: linear-gradient(to top, rgba(0,0,0,0.9), transparent); position: relative; }
-.input-box { display: flex; align-items: flex-end; gap: 10px; background: rgba(15,23,42,0.7); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: 20px; padding: 10px 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-.textarea { flex: 1; background: transparent; border: none; color: var(--text); font-size: 14px; resize: none; max-height: 120px; outline: none; padding: 10px 0; }
-.textarea::placeholder { color: var(--muted); }
-.action-btn { width: 40px; height: 40px; border-radius: 12px; border: none; background: rgba(255,255,255,0.05); color: var(--text); font-size: 16px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
-.action-btn:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
-.action-btn.send { background: linear-gradient(135deg, var(--cyan), var(--purple)); box-shadow: 0 4px 10px rgba(0,229,255,0.3); }
-.action-btn.mic.active { color: var(--pink); animation: pulse 1.5s infinite; }
-@keyframes pulse { 0%{box-shadow:0 0 0 0 rgba(255,45,120,0.4)} 70%{box-shadow:0 0 0 10px rgba(255,45,120,0)} 100%{box-shadow:0 0 0 0 rgba(255,45,120,0)} }
-
-/* Media Preview */
-.media-preview { display: none; padding: 10px; margin-bottom: 10px; background: rgba(0,0,0,0.5); border-radius: 12px; border: 1px solid var(--glass-border); }
-.media-preview img { height: 60px; border-radius: 6px; }
-.remove-media { position: absolute; top: 5px; right: 5px; background: red; color: white; border: none; border-radius: 50%; width: 20px; height: 20px; cursor: pointer; }
-
-/* Mobile */
-.menu-toggle { display: none; }
-@media (max-width: 800px) {
-  .menu-toggle { display: block; font-size: 24px; background: none; border: none; color: white; cursor: pointer; }
-  .sidebar { position: fixed; left: -100%; z-index: 100; height: 100%; width: 280px; }
-  .sidebar.open { left: 0; box-shadow: 20px 0 50px rgba(0,0,0,0.8); }
-}
+  /* Mobile Responsive */
+  .mobile-menu-btn { display: none; }
+  @media (max-width: 768px) {
+    .sidebar { position: absolute; left: -100%; height: 100%; width: 280px; }
+    .sidebar.open { left: 0; }
+    .mobile-menu-btn { display: flex; }
+    .msg-wrapper { max-width: 95%; }
+  }
 </style>
 </head>
 <body>
-<!-- Canvas for 3D Cyberpunk Particles -->
-<canvas id="bg-canvas"></canvas>
+<div class="bg-animation"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
 
 <header>
-  <div class="logo">
-    <div class="logo-icon">⚖️</div> Lex-AI
-  </div>
-  <div style="display:flex; gap:10px;">
-    <button class="btn-glass" id="ttsBtn" onclick="toggleTTS()" title="Text-to-Speech">🔇 TTS</button>
-    <button class="btn-3d" onclick="clearChat()">Bersihkan</button>
-    <button class="menu-toggle" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+  <div class="logo">Lex-AI</div>
+  <div class="header-actions">
+    <button class="btn" onclick="toggleTTS()" id="ttsBtn" title="Pembaca Suara (TTS)">🔇 Suara Mati</button>
+    <button class="btn mobile-menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰ Model</button>
   </div>
 </header>
 
-<div class="container">
-  <!-- Sidebar Panel Model -->
+<div class="layout">
   <aside class="sidebar" id="sidebar">
-    <div class="section-title">Model Terpilih: <span id="currentModelLabel" style="color:#fff">Memuat...</span></div>
-    
-    <div class="section-title" style="margin-top:10px">AI-Router</div>
-    <div id="list-airouter"></div>
-
-    <div class="section-title" style="margin-top:20px">OpenRouter</div>
-    <div id="list-openrouter"></div>
+    <div class="sidebar-header">Pilih Model AI</div>
+    <div class="model-list" id="mList"></div>
   </aside>
 
-  <!-- Area Chat Utama -->
   <main class="chat-area">
-    <div class="msgs" id="chat-box"></div>
-
-    <div class="input-zone">
-      <!-- Preview Gambar/Video -->
-      <div class="media-preview" id="mediaPreviewContainer">
-        <div style="position:relative; display:inline-block;">
-          <img id="mediaPreview" src="" alt="preview">
-          <button class="remove-media" onclick="clearMedia()">×</button>
-        </div>
+    <div class="chat-messages" id="msgs"></div>
+    
+    <div class="input-container">
+      <div class="file-preview-badge" id="filePreview">
+        <span id="fileName">file.jpg</span>
+        <button onclick="clearFile()" style="background:none;border:none;color:white;cursor:pointer">❌</button>
       </div>
-
       <div class="input-box">
-        <!-- Upload File -->
-        <input type="file" id="fileInput" accept="image/*,video/*" style="display:none" onchange="handleFile(event)">
-        <button class="action-btn" onclick="document.getElementById('fileInput').click()" title="Lampirkan File">📎</button>
-        
-        <!-- Voice Input -->
-        <button class="action-btn mic" id="micBtn" onclick="toggleMic()" title="Dikte Suara">🎤</button>
-        
-        <!-- Text Area -->
-        <textarea class="textarea" id="chatInput" rows="1" placeholder="Tanyakan sesuatu atau unggah file untuk dianalisa..." oninput="this.style.height='auto';this.style.height=this.scrollHeight+'px';" onkeydown="if(event.key==='Enter' && !event.shiftKey){event.preventDefault();sendMessage();}"></textarea>
-        
-        <!-- Send -->
-        <button class="action-btn send" onclick="sendMessage()">➤</button>
+        <input type="file" id="fileInput" accept="image/*,video/*" style="display:none" onchange="handleFile(this)">
+        <button class="action-btn" onclick="document.getElementById('fileInput').click()" title="Lampirkan Gambar/Video">📎</button>
+        <button class="action-btn" id="micBtn" onclick="toggleMic()" title="Bicara (Input Suara)">🎤</button>
+        <textarea id="cinp" placeholder="Ketik pesan atau minta analisis gambar..." rows="1" onkeydown="keyCheck(event)" oninput="this.style.height='auto';this.style.height=Math.min(this.scrollHeight,120)+'px';"></textarea>
+        <button class="action-btn btn-send" onclick="send()">➤</button>
       </div>
     </div>
   </main>
 </div>
 
 <script>
-/* 3D Background Effect */
-const cvs = document.getElementById('bg-canvas'); const ctx = cvs.getContext('2d');
-let w, h; const dots = [];
-function initCvs(){ w=cvs.width=innerWidth; h=cvs.height=innerHeight; }
-window.onresize = initCvs; initCvs();
-for(let i=0; i<70; i++) dots.push({x:Math.random()*w, y:Math.random()*h, r:Math.random()*2, dx:(Math.random()-0.5)*0.5, dy:(Math.random()-0.5)*0.5});
-function draw(){
-  ctx.clearRect(0,0,w,h); ctx.fillStyle = 'rgba(0, 229, 255, 0.5)';
-  dots.forEach(d=>{ d.x+=d.dx; d.y+=d.dy; if(d.x<0||d.x>w)d.dx*=-1; if(d.y<0||d.y>h)d.dy*=-1; ctx.beginPath(); ctx.arc(d.x,d.y,d.r,0,Math.PI*2); ctx.fill(); });
-  requestAnimationFrame(draw);
-} draw();
-
-/* EXACT MODEL LIST DARI INSTRUKSI SEBELUMNYA */
+// --- DAFTAR MODEL (100% Mengikuti Instruksi) ---
 const MODELS = [
   {id:'gpt-5.5', n:'GPT-5.5', p:'Ai-Router'},
   {id:'gpt-5.2', n:'GPT-5.2', p:'Ai-Router'},
@@ -183,163 +157,141 @@ const MODELS = [
   {id:'google/gemma-4-31b-it:free', n:'google/gemma-4-31b-it:free', p:'OpenRouter'},
   {id:'respan/span-01-lite:free', n:'respan/span-01-lite:free', p:'OpenRouter'},
   {id:'liquid/lfm-2.5-embedding-350m:free', n:'liquid/lfm-2.5-embedding-350m:free', p:'OpenRouter'},
-  {id:'fish-audio/s2.1-pro-free:free', n:'fish-audio/s2.1-pro-free:free', p:'OpenRouter'}
+  {id:'fish-audio/s2.1-pro-free:free', n:'fish-audio/s2.1-pro-free:free', p:'OpenRouter'},
+  {id:'nvidia/nemotron-3.5-super-vl:free', n:'nvidia/nemotron-3.5-super-vl:free', p:'OpenRouter'} // Model Baru
 ];
 
-const State = {
+const S = {
   model: localStorage.getItem('lmm') || 'gpt-5.5',
   provider: localStorage.getItem('lmp') || 'Ai-Router',
-  msgs: [], tts: false, base64File: null
+  msgs: [], tts: false, attachedFile: null, recognition: null
 };
 
 window.onload = () => {
-  renderModels(); updateModelLabel();
-  appendMsg('bot', 'Halo! Lex-AI siap menganalisa teks, gambar, atau dokumen yang Anda kirimkan.');
+  renderModels();
+  botMsg(`Halo! Saya **Lex-AI**. Saya telah ditingkatkan dengan fitur Multimodal. Anda bisa mengirimkan foto/video dan menggunakan suara. Silakan pilih model di samping kiri.`);
 };
 
-/* Render Panel UI */
+// Rendering Model Sidebar
 function renderModels() {
-  const aDiv = document.getElementById('list-airouter'); const oDiv = document.getElementById('list-openrouter');
-  aDiv.innerHTML = ''; oDiv.innerHTML = '';
-  MODELS.forEach(m => {
-    const el = document.createElement('div');
-    el.className = `model-item ${m.id === State.model ? 'active' : ''}`;
-    el.innerHTML = `<div class="model-name">${m.n}</div><div class="model-prov">${m.p}</div>`;
-    el.onclick = () => {
-      State.model = m.id; State.provider = m.p;
-      localStorage.setItem('lmm', m.id); localStorage.setItem('lmp', m.p);
-      renderModels(); updateModelLabel();
-      if(window.innerWidth <= 800) document.getElementById('sidebar').classList.remove('open');
-    };
-    if(m.p === 'Ai-Router') aDiv.appendChild(el); else oDiv.appendChild(el);
-  });
-}
-function updateModelLabel() {
-  const m = MODELS.find(x => x.id === State.model);
-  if(m) document.getElementById('currentModelLabel').textContent = m.n;
+  const el = document.getElementById('mList');
+  el.innerHTML = MODELS.map(m => `
+    <div class="model-item ${m.id === S.model ? 'active' : ''}" onclick="pickM('${m.id}','${m.p}')">
+      <div class="model-name">${m.n}</div>
+      <div class="model-provider">${m.p}</div>
+    </div>
+  `).join('');
 }
 
-/* Multimodal File Handler (Base64) */
-function handleFile(e) {
-  const file = e.target.files[0];
+function pickM(id, provider) {
+  S.model = id; S.provider = provider;
+  localStorage.setItem('lmm', id); localStorage.setItem('lmp', provider);
+  renderModels();
+  if(window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
+}
+
+// Multimodal File Handler (Base64)
+function handleFile(input) {
+  const file = input.files[0];
   if(!file) return;
   const reader = new FileReader();
-  reader.onload = (ev) => {
-    State.base64File = ev.target.result;
-    document.getElementById('mediaPreview').src = State.base64File;
-    document.getElementById('mediaPreviewContainer').style.display = 'block';
+  reader.onload = (e) => {
+    S.attachedFile = e.target.result;
+    document.getElementById('filePreview').style.display = 'flex';
+    document.getElementById('fileName').textContent = 'Terlampir: ' + file.name;
   };
   reader.readAsDataURL(file);
 }
-function clearMedia() {
-  State.base64File = null;
+function clearFile() {
+  S.attachedFile = null;
   document.getElementById('fileInput').value = '';
-  document.getElementById('mediaPreviewContainer').style.display = 'none';
+  document.getElementById('filePreview').style.display = 'none';
 }
 
-/* Chat Engine */
-function appendMsg(role, content, imgData=null) {
-  const box = document.getElementById('chat-box');
-  const div = document.createElement('div');
-  div.className = `msg ${role}`;
+// UI Chat
+function botMsg(txt) {
+  const d = document.createElement('div'); d.className = 'msg-wrapper bot';
+  d.innerHTML = `<div class="avatar bot-avatar">🤖</div><div class="msg-bubble">${txt.replace(/\n/g,'<br>')}</div>`;
+  document.getElementById('msgs').appendChild(d); scrl();
+  if(S.tts) speakTTS(txt);
+}
+function userMsg(txt, imgBase64 = null) {
+  const d = document.createElement('div'); d.className = 'msg-wrapper user';
+  let imgHtml = imgBase64 ? `<br><img src="${imgBase64}" class="msg-img-preview" />` : '';
+  d.innerHTML = `<div class="avatar user-avatar">👤</div><div class="msg-bubble">${txt}${imgHtml}</div>`;
+  document.getElementById('msgs').appendChild(d); scrl();
+}
+function scrl() { const e=document.getElementById('msgs'); e.scrollTop=e.scrollHeight; }
+
+// Send Message
+async function send() {
+  const inputEl = document.getElementById('cinp');
+  const txt = inputEl.value.trim();
+  if(!txt && !S.attachedFile) return;
   
-  let imgHtml = imgData ? `<br><img src="${imgData}" class="msg-img">` : '';
-  let formatTxt = content.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+  inputEl.value = ''; inputEl.style.height = 'auto';
+  userMsg(txt || "Analisis file ini.", S.attachedFile);
 
-  div.innerHTML = `<div class="avatar">${role==='user'?'👤':'🤖'}</div>
-                   <div class="bubble">${formatTxt}${imgHtml}</div>`;
-  box.appendChild(div); box.scrollTop = box.scrollHeight;
-  if(role === 'bot' && State.tts) speak(content);
-}
-
-async function sendMessage() {
-  const inp = document.getElementById('chatInput');
-  const text = inp.value.trim();
-  if(!text && !State.base64File) return;
-
-  // Format Content (Universal untuk teks dan gambar)
-  let userContent = text;
-  if (State.base64File) {
-    userContent = [
-      { type: "text", text: text || "Jelaskan gambar ini" },
-      { type: "image_url", image_url: { url: State.base64File } }
+  // Format Payload AI
+  let payloadContent = txt;
+  if(S.attachedFile) {
+    payloadContent = [
+      { type: "text", text: txt || "Tolong jelaskan apa yang ada di gambar/video ini secara detail." },
+      { type: "image_url", image_url: { url: S.attachedFile } }
     ];
   }
-
-  appendMsg('user', text || "Mengirim media...", State.base64File);
-  State.msgs.push({ role: 'user', content: userContent });
   
-  inp.value = ''; inp.style.height = 'auto';
-  let tempBase64 = State.base64File;
-  clearMedia();
-
-  // Loading Indicator
-  const loadId = 'load-' + Date.now();
-  const box = document.getElementById('chat-box');
-  box.insertAdjacentHTML('beforeend', `<div class="msg bot" id="${loadId}"><div class="avatar">🤖</div><div class="bubble">Menganalisa...</div></div>`);
-  box.scrollTop = box.scrollHeight;
+  S.msgs.push({ role: 'user', content: payloadContent });
+  clearFile();
+  botMsg("⏳ *Menganalisis...*");
 
   try {
     const res = await fetch('/api/chat', {
       method: 'POST', headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        model: State.model, provider: State.provider,
-        messages: State.msgs.slice(-8)
-      })
+      body: JSON.stringify({ model: S.model, provider: S.provider, messages: S.msgs })
     });
     const data = await res.json();
-    document.getElementById(loadId).remove();
-
-    if(!res.ok) throw new Error(data.error || "Gagal menghubungi server");
+    if(!res.ok) throw new Error(data.error);
+    
+    // Remove "menganalisis" message
+    document.getElementById('msgs').lastChild.remove(); 
     
     const reply = data.choices[0].message.content;
-    State.msgs.push({ role: 'assistant', content: reply });
-    appendMsg('bot', reply);
+    S.msgs.push({ role: 'assistant', content: reply });
+    botMsg(reply);
   } catch(e) {
-    document.getElementById(loadId).remove();
-    appendMsg('bot', `❌ Error: ${e.message}`);
+    document.getElementById('msgs').lastChild.remove();
+    botMsg(`❌ **Error:** ${e.message}`);
   }
 }
+function keyCheck(e) { if(e.key==='Enter' && !e.shiftKey) { e.preventDefault(); send(); } }
 
-function clearChat() { document.getElementById('chat-box').innerHTML = ''; State.msgs = []; }
-
-/* Fitur Suara: Text to Speech (TTS) & Speech to Text (STT) */
+// Fitur Voice (STT & TTS)
 function toggleTTS() {
-  State.tts = !State.tts;
+  S.tts = !S.tts;
   const btn = document.getElementById('ttsBtn');
-  btn.textContent = State.tts ? '🔊 TTS' : '🔇 TTS';
-  btn.style.color = State.tts ? 'var(--cyan)' : '';
+  btn.textContent = S.tts ? '🔊 Suara Aktif' : '🔇 Suara Mati';
+  btn.style.color = S.tts ? 'var(--glow-primary)' : 'inherit';
 }
-function speak(text) {
-  if(!window.speechSynthesis) return;
-  speechSynthesis.cancel();
-  const u = new SpeechSynthesisUtterance(text.replace(/[*_`#]/g,''));
-  u.lang = 'id-ID'; speechSynthesis.speak(u);
+function speakTTS(text) {
+  if(!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const cleanText = text.replace(/[*_`#]/g, '');
+  const utterance = new SpeechSynthesisUtterance(cleanText);
+  utterance.lang = 'id-ID';
+  window.speechSynthesis.speak(utterance);
 }
-
-let recognition;
 function toggleMic() {
-  const micBtn = document.getElementById('micBtn');
-  if(micBtn.classList.contains('active')) {
-    if(recognition) recognition.stop();
-    micBtn.classList.remove('active');
-    return;
-  }
+  const btn = document.getElementById('micBtn');
+  if(S.recognition) { S.recognition.stop(); return; }
   
-  const SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if(!SpeechRec) { alert("Browser tidak mendukung input suara."); return; }
-  
-  recognition = new SpeechRec();
-  recognition.lang = 'id-ID';
-  recognition.continuous = false;
-  
-  recognition.onstart = () => micBtn.classList.add('active');
-  recognition.onresult = (e) => {
-    const transcript = e.results[0][0].transcript;
-    document.getElementById('chatInput').value += transcript + ' ';
-  };
-  recognition.onend = () => micBtn.classList.remove('active');
-  recognition.start();
+  if(!('webkitSpeechRecognition' in window)) { alert('Browser tidak mendukung fitur suara.'); return; }
+  S.recognition = new webkitSpeechRecognition();
+  S.recognition.lang = 'id-ID';
+  S.recognition.onstart = () => btn.classList.add('mic-active');
+  S.recognition.onresult = (e) => { document.getElementById('cinp').value += e.results[0][0].transcript + ' '; };
+  S.recognition.onend = () => { btn.classList.remove('mic-active'); S.recognition = null; };
+  S.recognition.start();
 }
 </script>
 </body>
