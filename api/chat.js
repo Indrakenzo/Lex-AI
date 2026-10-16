@@ -1,4 +1,4 @@
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Method Not Allowed' });
     }
@@ -32,7 +32,7 @@ export default async function handler(req, res) {
             },
             body: JSON.stringify({
                 model: model,
-                messages: messages, // Mendukung format teks murni maupun array multimodal (teks + gambar)
+                messages: messages, // Mendukung teks maupun array multimodal (gambar/video base64)
                 temperature: temperature || 0.7,
                 max_tokens: max_tokens || 2048
             })
@@ -49,4 +49,4 @@ export default async function handler(req, res) {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-}
+};
