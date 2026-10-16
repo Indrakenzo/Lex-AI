@@ -1,0 +1,13 @@
+{
+  "name": "lex-ai-modern",
+  "version": "2.0.0",
+  "description": "Lex-AI Multimodal & Voice Enabled Chatbot",
+  "main": "api/chat.js",
+  "scripts": {
+    "start": "node api/chat.js"
+  },
+  "dependencies": {},
+  "engines": {
+    "node": "18.x"
+  }
+}
