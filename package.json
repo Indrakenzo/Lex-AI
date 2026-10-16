@@ -2,9 +2,6 @@
   "name": "lex-ai",
   "version": "3.0.0",
   "description": "Lex-AI Multimodal Advanced Assistant",
-  "scripts": {
-    "start": "node api/chat.js"
-  },
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^16.4.5"
