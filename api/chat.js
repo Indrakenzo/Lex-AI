@@ -5,11 +5,11 @@ export default async function handler(req, res) {
 
     const { model, provider, messages, temperature, max_tokens } = req.body;
     
-    // Default ke OpenRouter
+    // Default routing ke OpenRouter
     let endpoint = 'https://openrouter.ai/api/v1/chat/completions';
     let apiKey = process.env.OPENROUTER_API_KEY;
 
-    // Routing ke Ai-Router jika dipilih
+    // Routing khusus Ai-Router
     if (provider === 'Ai-Router') {
         endpoint = 'https://api.ai-router.dev/v1/chat/completions';
         apiKey = process.env.AIROUTER_API_KEY;
@@ -17,7 +17,7 @@ export default async function handler(req, res) {
 
     if (!apiKey) {
         return res.status(500).json({ 
-            error: `API Key belum dikonfigurasi di Vercel untuk provider ${provider}.` 
+            error: `API Key belum dikonfigurasi di Environment Variables Vercel untuk ${provider}.` 
         });
     }
 
@@ -32,7 +32,7 @@ export default async function handler(req, res) {
             },
             body: JSON.stringify({
                 model: model,
-                messages: messages, // Mendukung format teks biasa maupun array (Multimodal Text+Image/Video)
+                messages: messages, // Mendukung format teks murni maupun array multimodal (teks + gambar)
                 temperature: temperature || 0.7,
                 max_tokens: max_tokens || 2048
             })
@@ -41,7 +41,7 @@ export default async function handler(req, res) {
         const data = await response.json();
         
         if (!response.ok) {
-            throw new Error(data.error?.message || `Gagal menghubungi API ${provider}.`);
+            throw new Error(data.error?.message || `Gagal menghubungi API dari ${provider}.`);
         }
 
         res.status(200).json(data);
