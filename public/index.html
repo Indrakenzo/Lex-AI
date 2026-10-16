@@ -22,7 +22,7 @@
   ::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-thumb { background: var(--glass-border); border-radius: 10px; }
 
   /* Animated Background */
-  .bg-animation { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -1; background: radial-gradient(circle at 50% 50%, #1a1025 0%, #050505 100%); overflow: hidden; }
+  .bg-animation { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; z-index: -2; background: radial-gradient(circle at 50% 50%, #1a1025 0%, #050505 100%); overflow: hidden; }
   .orb { position: absolute; border-radius: 50%; filter: blur(80px); opacity: 0.4; animation: float 15s infinite alternate ease-in-out; }
   .orb-1 { width: 300px; height: 300px; background: var(--glow-primary); top: -10%; left: -10%; }
   .orb-2 { width: 400px; height: 400px; background: var(--glow-secondary); bottom: -20%; right: -10%; animation-delay: -5s; }
@@ -39,7 +39,7 @@
   /* Main Layout */
   .layout { display: flex; flex: 1; overflow: hidden; position: relative; }
   
-  /* Sidebar (Model Selector) */
+  /* Sidebar */
   .sidebar { width: 320px; background: var(--glass-bg); backdrop-filter: blur(20px); border-right: 1px solid var(--glass-border); display: flex; flex-direction: column; transition: var(--transition); z-index: 5; }
   .sidebar-header { padding: 20px; border-bottom: 1px solid var(--glass-border); font-size: 14px; font-weight: 700; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
   .model-list { flex: 1; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 8px; }
@@ -61,18 +61,30 @@
   .bot-avatar { background: linear-gradient(135deg, var(--glow-primary), var(--glow-secondary)); }
   .user-avatar { background: linear-gradient(135deg, #f59e0b, #ec4899); }
   
+  /* Desain Bot Reply Baru */
   .msg-bubble { padding: 14px 18px; border-radius: 16px; font-size: 14px; line-height: 1.6; box-shadow: var(--shadow-3d); position: relative; }
-  .msg-wrapper.bot .msg-bubble { background: rgba(20, 25, 40, 0.8); border: 1px solid var(--glass-border); border-top-left-radius: 4px; backdrop-filter: blur(10px); }
-  .msg-wrapper.user .msg-bubble { background: linear-gradient(135deg, rgba(0, 229, 255, 0.15), rgba(168, 85, 247, 0.15)); border: 1px solid rgba(0, 229, 255, 0.3); border-top-right-radius: 4px; backdrop-filter: blur(10px); }
+  .msg-wrapper.bot .msg-bubble { 
+    background: rgba(15, 23, 42, 0.7); 
+    border: 1px solid var(--glass-border); 
+    border-left: 3px solid var(--glow-primary);
+    border-top-left-radius: 4px; 
+    backdrop-filter: blur(12px); 
+    box-shadow: 0 4px 20px rgba(0, 229, 255, 0.1);
+  }
+  .msg-wrapper.user .msg-bubble { 
+    background: linear-gradient(135deg, rgba(0, 229, 255, 0.15), rgba(168, 85, 247, 0.15)); 
+    border: 1px solid rgba(0, 229, 255, 0.3); 
+    border-top-right-radius: 4px; 
+    backdrop-filter: blur(10px); 
+  }
   .msg-img-preview { max-width: 100%; border-radius: 8px; margin-top: 10px; border: 1px solid var(--glass-border); }
   
-  /* Input Area (Semi 3D) */
-  .input-container { padding: 20px 25px; background: linear-gradient(to top, var(--bg-dark) 50%, transparent); }
+  /* Input Area */
+  .input-container { padding: 15px 25px; background: linear-gradient(to top, var(--bg-dark) 70%, transparent); }
   .input-box { display: flex; align-items: flex-end; gap: 10px; background: rgba(10, 15, 25, 0.8); border: 1px solid var(--glass-border); padding: 10px 15px; border-radius: 20px; box-shadow: var(--shadow-3d); backdrop-filter: blur(20px); position: relative; transition: var(--transition); }
   .input-box:focus-within { border-color: var(--glow-primary); box-shadow: 0 0 25px rgba(0,229,255,0.2), inset 0 1px 1px rgba(255,255,255,0.1); }
   
-  .file-preview-badge { position: absolute; top: -45px; left: 15px; background: var(--glass-bg); padding: 5px 12px; border-radius: 20px; border: 1px solid var(--glow-primary); font-size: 11px; display: none; align-items: center; gap: 8px; box-shadow: var(--shadow-3d); }
-  .file-preview-badge img { height: 20px; border-radius: 4px; }
+  .file-preview-badge { position: absolute; top: -40px; left: 15px; background: var(--glass-bg); padding: 5px 12px; border-radius: 20px; border: 1px solid var(--glow-primary); font-size: 11px; display: none; align-items: center; gap: 8px; box-shadow: var(--shadow-3d); }
   
   textarea { flex: 1; background: transparent; border: none; color: var(--text-main); font-size: 14px; resize: none; max-height: 120px; padding: 10px 0; outline: none; line-height: 1.5; }
   textarea::placeholder { color: var(--text-muted); }
@@ -84,8 +96,16 @@
   .mic-active { color: #ef4444; animation: pulse 1.5s infinite; }
   @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(239, 68, 68, 0); } 100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); } }
 
-  /* Mobile Responsive */
-  .mobile-menu-btn { display: none; }
+  /* Footer */
+  .app-footer { display: flex; justify-content: space-between; align-items: center; padding: 12px 25px; background: rgba(5, 5, 5, 0.95); border-top: 1px solid var(--glass-border); z-index: 10; font-size: 12px; color: var(--text-muted); backdrop-filter: blur(10px); }
+  .footer-left { font-weight: 600; }
+  .footer-right { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+  .f-row { display: flex; align-items: center; gap: 8px; }
+  .f-icon, .f-text { color: var(--text-muted); text-decoration: none; transition: var(--transition); display: flex; align-items: center; }
+  .f-icon:hover, .f-text:hover { color: var(--glow-primary); }
+  .f-icon svg { fill: currentColor; }
+  .f-text { font-weight: 600; }
+
   @media (max-width: 768px) {
     .sidebar { position: absolute; left: -100%; height: 100%; width: 280px; }
     .sidebar.open { left: 0; }
@@ -101,7 +121,7 @@
   <div class="logo">Lex-AI</div>
   <div class="header-actions">
     <button class="btn" onclick="toggleTTS()" id="ttsBtn" title="Pembaca Suara (TTS)">🔇 Suara Mati</button>
-    <button class="btn mobile-menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰ Model</button>
+    <button class="btn mobile-menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')" style="display:none;">☰ Model</button>
   </div>
 </header>
 
@@ -130,8 +150,27 @@
   </main>
 </div>
 
+<!-- Footer Inyz 2026 -->
+<footer class="app-footer">
+  <div class="footer-left">
+    <span>© 2026 inyz</span>
+  </div>
+  <div class="footer-right">
+    <div class="f-row">
+      <a href="https://github.com/Indrakenzo" target="_blank" title="GitHub" class="f-icon">
+        <svg viewBox="0 0 24 24" width="16" height="16"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+      </a>
+      <a href="https://indrayaza-z.vercel.app/" target="_blank" class="f-text">Indrakenzo</a>
+    </div>
+    <div class="f-row">
+      <a href="https://pabbura-ai.vercel.app/" target="_blank" class="f-icon" title="Pabbura-AI" style="font-size: 16px;">🩺</a>
+      <a href="https://pabbura-ai.vercel.app/" target="_blank" class="f-text">Pabbura-AI</a>
+    </div>
+  </div>
+</footer>
+
 <script>
-// --- DAFTAR MODEL (100% Mengikuti Instruksi) ---
+// --- DAFTAR MODEL (Sesuai List Pasti + Nemotron VL) ---
 const MODELS = [
   {id:'gpt-5.5', n:'GPT-5.5', p:'Ai-Router'},
   {id:'gpt-5.2', n:'GPT-5.2', p:'Ai-Router'},
@@ -158,7 +197,7 @@ const MODELS = [
   {id:'respan/span-01-lite:free', n:'respan/span-01-lite:free', p:'OpenRouter'},
   {id:'liquid/lfm-2.5-embedding-350m:free', n:'liquid/lfm-2.5-embedding-350m:free', p:'OpenRouter'},
   {id:'fish-audio/s2.1-pro-free:free', n:'fish-audio/s2.1-pro-free:free', p:'OpenRouter'},
-  {id:'nvidia/nemotron-3.5-super-vl:free', n:'nvidia/nemotron-3.5-super-vl:free', p:'OpenRouter'} // Model Baru
+  {id:'nvidia/nemotron-3.5-super-vl:free', n:'nvidia/nemotron-3.5-super-vl:free', p:'OpenRouter'}
 ];
 
 const S = {
@@ -169,10 +208,10 @@ const S = {
 
 window.onload = () => {
   renderModels();
+  if(window.innerWidth <= 768) document.querySelector('.mobile-menu-btn').style.display = 'flex';
   botMsg(`Halo! Saya **Lex-AI**. Saya telah ditingkatkan dengan fitur Multimodal. Anda bisa mengirimkan foto/video dan menggunakan suara. Silakan pilih model di samping kiri.`);
 };
 
-// Rendering Model Sidebar
 function renderModels() {
   const el = document.getElementById('mList');
   el.innerHTML = MODELS.map(m => `
@@ -190,7 +229,6 @@ function pickM(id, provider) {
   if(window.innerWidth <= 768) document.getElementById('sidebar').classList.remove('open');
 }
 
-// Multimodal File Handler (Base64)
 function handleFile(input) {
   const file = input.files[0];
   if(!file) return;
@@ -208,7 +246,6 @@ function clearFile() {
   document.getElementById('filePreview').style.display = 'none';
 }
 
-// UI Chat
 function botMsg(txt) {
   const d = document.createElement('div'); d.className = 'msg-wrapper bot';
   d.innerHTML = `<div class="avatar bot-avatar">🤖</div><div class="msg-bubble">${txt.replace(/\n/g,'<br>')}</div>`;
@@ -223,20 +260,18 @@ function userMsg(txt, imgBase64 = null) {
 }
 function scrl() { const e=document.getElementById('msgs'); e.scrollTop=e.scrollHeight; }
 
-// Send Message
 async function send() {
   const inputEl = document.getElementById('cinp');
   const txt = inputEl.value.trim();
   if(!txt && !S.attachedFile) return;
   
   inputEl.value = ''; inputEl.style.height = 'auto';
-  userMsg(txt || "Analisis file ini.", S.attachedFile);
+  userMsg(txt || "Analisis lampiran ini.", S.attachedFile);
 
-  // Format Payload AI
   let payloadContent = txt;
   if(S.attachedFile) {
     payloadContent = [
-      { type: "text", text: txt || "Tolong jelaskan apa yang ada di gambar/video ini secara detail." },
+      { type: "text", text: txt || "Tolong jelaskan secara detail." },
       { type: "image_url", image_url: { url: S.attachedFile } }
     ];
   }
@@ -253,7 +288,6 @@ async function send() {
     const data = await res.json();
     if(!res.ok) throw new Error(data.error);
     
-    // Remove "menganalisis" message
     document.getElementById('msgs').lastChild.remove(); 
     
     const reply = data.choices[0].message.content;
@@ -261,12 +295,11 @@ async function send() {
     botMsg(reply);
   } catch(e) {
     document.getElementById('msgs').lastChild.remove();
-    botMsg(`❌ **Error:** ${e.message}`);
+    botMsg(`❌ **Error API:** ${e.message}`);
   }
 }
 function keyCheck(e) { if(e.key==='Enter' && !e.shiftKey) { e.preventDefault(); send(); } }
 
-// Fitur Voice (STT & TTS)
 function toggleTTS() {
   S.tts = !S.tts;
   const btn = document.getElementById('ttsBtn');
